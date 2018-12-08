@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Audio Speeder</title>
+    <title>Carefull Audio Speeder</title>
+    <meta name="Description" content="Based on a KCD tweet" />
   </head>
 
   <style>
@@ -21,23 +22,13 @@
     }
     .one {
       width: 100%;
-      display: block;
     }
     .half {
-      width: 50%;
+      width: 45%;
       display: inline-block;
     }
-    .third {
-      width: 33%;
-      display: inline-block;
-    }
-    .fourth {
-      width: 25%;
-      display: inline-block;
-    }
-    .sixth {
-      width: 0.16%;
-      display: inline-block;
+    .hidden {
+      display: none;
     }
   </style>
 
@@ -103,10 +94,12 @@
       <h3><label for="stream">File url</label></h3>
       <input class="one" type="text" id="stream" />
 
-      <h3 class="fourth"><label for="rate-number">Playback Rate</label></h3>
-      <input class="fifth" type="number" id="rate-number" min="1" max="10" />
+      <h3 class="one"><label for="rate-number">Playback Rate</label></h3>
+      <h3 class="one hidden"><label for="rate-range">(slide!)</label></h3>
+
+      <input class="half" type="number" id="rate-number" min="1" max="10" />
       <input
-        class="third"
+        class="half"
         type="range"
         id="rate-range"
         min="1"
