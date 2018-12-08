@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Carefull Audio Speeder</title>
+    <meta name="Description" content="Based on a KCD tweet" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@1.0.0/build/base-min.css"
+    />
+
+    <style>
+      body {
+        padding: 5%;
+        max-width: 30rem;
+      }
+      h1 {
+        text-align: center;
+      }
+      h2,
+      h3,
+      audio {
+        margin-top: 2rem;
+      }
+      .one {
+        width: 100%;
+      }
+      .half {
+        width: 45%;
+        display: inline-block;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+
+    <script type="text/javascript">
+      function DCL() {
+        const sound = document.getElementById("sound");
+
+        const file = document.getElementById("file");
+        const stream = document.getElementById("stream");
+
+        const number = document.getElementById("rate-number");
+        const range = document.getElementById("rate-range");
+
+        file.onchange = function(e) {
+          sound.src = URL.createObjectURL(this.files[0]);
+          sound.playbackRate = number.value;
+
+          sound.onend = function(e) {
+            URL.revokeObjectURL(this.src);
+          };
+        };
+
+        stream.onchange = function(e) {
+          sound.src = e.target.value;
+          sound.playbackRate = number.value;
+        };
+
+        function addListenersFor(input, otherInput) {
+          function changeListenerFor(otherInput) {
+            return function(e) {
+              const value = e.target.value;
+
+              otherInput.value = value;
+              sound.playbackRate = value;
+            };
+          }
+
+          input.addEventListener("input", changeListenerFor(otherInput));
+          input.addEventListener("change", changeListenerFor(otherInput));
+          input.addEventListener("keyup", changeListenerFor(otherInput));
+          input.addEventListener("mouseup", changeListenerFor(otherInput));
+          changeListenerFor(otherInput);
+        }
+
+        addListenersFor(number, range);
+        addListenersFor(range, number);
+
+        number.value = 1;
+        range.value = 1;
+      }
+
+      document.addEventListener("DOMContentLoaded", DCL);
+    </script>
+  </head>
+
+  <body>
+    <div>
+      <h1>Audio Speeder 🏎💨</h1>
+
+      <h2>Choose file</h2>
+
+      <h3><label for="file">Local file</label></h3>
+      <input type="file" id="file" />
+
+      <h3><label for="stream">File url</label></h3>
+      <input class="one" type="text" id="stream" />
+
+      <h3 class="one"><label for="rate-number">Playback Rate</label></h3>
+      <h3 class="one hidden"><label for="rate-range">(slide!)</label></h3>
+
+      <input class="half" type="number" id="rate-number" min="1" max="10" />
+      <input
+        class="half"
+        type="range"
+        id="rate-range"
+        min="1"
+        max="10"
+        step="0.5"
+      />
+
+      <audio class="one" id="sound" controls></audio>
+    </div>
+  </body>
+</html>
